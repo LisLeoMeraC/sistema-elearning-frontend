@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+  <a
+    
+    mat-icon-button
+    class="example-icon"
+    arial-label="Example icon-button with menu icon"
+  >
+    <mat-icon>desktop_windows</mat-icon>
+  </a>
+  <span>EduComputeAI</span>
+  <span class="example-spacer"></span>
+
+  <button
+    *ngIf="!isLoggedIn"
+    [routerLink]="'/login'"
+    mat-flat-button
+    color="primary"
+  >
+    Iniciar sesión
+  </button>
+
+  <button
+    *ngIf="!isLoggedIn"
+    [routerLink]="'/signup'"
+    mat-flat-button
+    color="primary"
+  >
+    Registrar
+  </button>
+
+  <button *ngIf="isLoggedIn" (click)="logout()"  mat-flat-button color="primary">
+    Cerrar sesión
+  </button>
+
+
+  <button *ngIf="isLoggedIn && user" mat-flat-button color="primary"
+  routerLink="/admin/profile">
+    {{ user.username }}
+  </button>
+</mat-toolbar>

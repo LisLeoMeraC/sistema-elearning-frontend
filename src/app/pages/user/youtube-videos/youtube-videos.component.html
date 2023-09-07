@@ -1,0 +1,14 @@
+<div class="video-section">
+  <h2 style="text-align: center; color: blue;">Videos Recomendados</h2>
+  <h3 style="text-align: center; color: black;">Cada video es una nueva oportunidad para brillar. ¡Inspírate y fortalece tus habilidades!</h3>
+
+  <div class="video-list">
+    <mat-card *ngFor="let videoData of videosData" class="video-card">
+      <mat-card-header>
+        <mat-card-title>{{ videoData.title }}</mat-card-title>
+      </mat-card-header>
+      <iframe width="100%" height="315" [src]="videoData.url" frameborder="0" allowfullscreen></iframe>
+    </mat-card>
+  </div>
+
+</div>

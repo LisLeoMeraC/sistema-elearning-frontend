@@ -1,0 +1,19 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .flex-wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+    padding: 20px; 
+  }
+  
+  mat-card {
+    max-width: 800px; 
+    width: 100%; 
+  }
+  
