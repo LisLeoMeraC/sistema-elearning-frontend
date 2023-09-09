@@ -1,2 +1,2 @@
-let baseURL= 'http://localhost:8080'
+let baseURL= 'https://computev3-a8811c602065.herokuapp.com'
 export default baseURL;
