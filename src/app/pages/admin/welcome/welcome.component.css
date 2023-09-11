@@ -1,0 +1,25 @@
+.content-flex {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.imagenReducida {
+    width: 150px;
+    height: auto;
+    margin-right: 20px;
+}
+
+@media (max-width: 600px) {
+    .content-flex {
+        flex-direction: column;
+    }
+
+    .imagenReducida {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}
+.flex-wrapper {
+    margin-top: 20px; 
+}

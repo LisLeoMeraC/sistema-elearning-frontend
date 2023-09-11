@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import baseURL from './helper';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,12 @@ export class LoginService {
   }
 
   public getCurrentUser(){
-    return this.http.get(`${baseURL}/actual-usuario`);
+    let token = this.getToken();
+    if (token) {
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    return this.http.get(`${baseURL}/actual-usuario`, {headers: headers});
+  }
+    return throwError('No token found');
   }
 
   //iniciamos sesión y establecemos el token en el localStorage

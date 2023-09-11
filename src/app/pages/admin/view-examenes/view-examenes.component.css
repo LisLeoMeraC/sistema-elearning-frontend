@@ -1,4 +1,10 @@
 .example-header-image{
     background-size: cover;
   }
+
+  .custom-input-field {
+    width: 300px; 
+    text-align: right;
+    margin-right: 600px;
+  }
   

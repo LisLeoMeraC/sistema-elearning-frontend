@@ -1,4 +1,11 @@
-<mat-card class="mt10" *ngFor = "let e of examenes">
+<div class="container text-center mt20">
+  <mat-form-field class="custom-input-field">
+    <input matInput [(ngModel)]="nombreABuscar" placeholder="Buscar por título del examen" (input)="filtrarExamenes()">
+  </mat-form-field>
+</div>
+
+
+<mat-card class="mt10" *ngFor = "let e of examenesFiltrados">
     <mat-card-header>
       <div mat-card-avatar class="example-header-image"></div>
         <mat-card-title>

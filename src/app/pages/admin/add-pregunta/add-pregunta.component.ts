@@ -7,10 +7,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-add-pregunta',
   templateUrl: './add-pregunta.component.html',
-  styleUrls: ['./add-pregunta.component.css']
+  styleUrls: ['./add-pregunta.component.css'],
 })
 export class AddPreguntaComponent implements OnInit {
-
   examenId: any;
   titulo: any;
   pregunta: any = {
@@ -20,14 +19,14 @@ export class AddPreguntaComponent implements OnInit {
     opcion2: '',
     opcion3: '',
     opcion4: '',
-    respuesta: ''
+    respuesta: '',
   };
 
   constructor(
     private route: ActivatedRoute,
     private preguntaService: PreguntaService,
-    private chatgptService: ChatgptService  // Inyecta el servicio aquí
-  ) { }
+    private chatgptService: ChatgptService // Inyecta el servicio aquí
+  ) {}
 
   ngOnInit(): void {
     this.examenId = this.route.snapshot.params['examenId'];
@@ -35,63 +34,133 @@ export class AddPreguntaComponent implements OnInit {
     this.pregunta.examen['examenId'] = this.examenId;
   }
 
-
-
-  formSubmit(){
-    if(this.pregunta.contenido.trim() == '' || this.pregunta.contenido == null){
+  formSubmit() {
+    if (
+      this.pregunta.contenido.trim() == '' ||
+      this.pregunta.contenido == null
+    ) {
       return;
     }
-    if(this.pregunta.opcion1.trim() == '' || this.pregunta.opcion1 == null){
+    if (this.pregunta.opcion1.trim() == '' || this.pregunta.opcion1 == null) {
       return;
     }
-    if(this.pregunta.opcion2.trim() == '' || this.pregunta.opcion2 == null){
+    if (this.pregunta.opcion2.trim() == '' || this.pregunta.opcion2 == null) {
       return;
     }
-    if(this.pregunta.opcion3.trim() == '' || this.pregunta.opcion3 == null){
+    if (this.pregunta.opcion3.trim() == '' || this.pregunta.opcion3 == null) {
       return;
     }
-    if(this.pregunta.opcion4.trim() == '' || this.pregunta.opcion4 == null){
+    if (this.pregunta.opcion4.trim() == '' || this.pregunta.opcion4 == null) {
       return;
     }
-    if(this.pregunta.respuesta.trim() == '' || this.pregunta.respuesta == null){
+    if (
+      this.pregunta.respuesta.trim() == '' ||
+      this.pregunta.respuesta == null
+    ) {
       return;
     }
-
-    
 
     this.preguntaService.guardarPregunta(this.pregunta).subscribe(
       (data) => {
-        Swal.fire('Pregunta guardada','La pregunta ha sido agregada con éxito','success');
+        Swal.fire(
+          'Pregunta guardada',
+          'La pregunta ha sido agregada con éxito',
+          'success'
+        );
         this.pregunta.contenido = '';
         this.pregunta.opcion1 = '';
         this.pregunta.opcion2 = '';
         this.pregunta.opcion3 = '';
         this.pregunta.opcion4 = '';
         this.pregunta.respuesta = '';
-      },(error) => {
-        Swal.fire('Error','Error al guardar la pregunta en la base de datos','error');
+      },
+      (error) => {
+        Swal.fire(
+          'Error',
+          'Error al guardar la pregunta en la base de datos',
+          'error'
+        );
         console.log(error);
       }
-    )
+    );
   }
 
   generarPregunta(): void {
-    this.chatgptService.generateQuestion(`Crea una pregunta sobre "${this.titulo}" con 4 opciones:`).subscribe(response => {
-      const lines = response.choices[0].text.split('\n');
-    
-      if (lines.length >= 5) {
-        this.pregunta.contenido = lines[0];
-        this.pregunta.opcion1 = lines[1].substring(3);  // Elimina "1) "
-        this.pregunta.opcion2 = lines[2].substring(3);  // Elimina "2) "
-        this.pregunta.opcion3 = lines[3].substring(3);  // Elimina "3) "
-        this.pregunta.opcion4 = lines[4].substring(3);  // Elimina "4) "
-      } else {
-        // Manejar errores o situaciones inesperadas
-        Swal.fire('Error', 'La respuesta generada no tiene el formato esperado.', 'error');
-      }
-    });
-  }
+    this.chatgptService.generateQuestion(`Hazme una pregunta con 4 opciones pero con texto no muy largos mas la respuesta que diga: 
+    Respuesta: sobre el tema de ${this.titulo} `).subscribe(
+        (response) => {
+            if (response && response.choices && response.choices.length > 0) {
+                const content = response.choices[0].message.content;
+
+                
+                const splitContent = content.split('\n').filter((line: string) => line.trim() !== '');
+                if (splitContent.length >= 6) {
+                    this.pregunta.contenido = splitContent[0].replace('Pregunta: ', '').trim();
+                    this.pregunta.opcion1 = this.extractOptionText(splitContent[1]);
+                    this.pregunta.opcion2 = this.extractOptionText(splitContent[2]);
+                    this.pregunta.opcion3 = this.extractOptionText(splitContent[3]);
+                    this.pregunta.opcion4 = this.extractOptionText(splitContent[4]);
+                    
+                    let correctAnswer = splitContent[5].replace('Respuesta: ', '').trim();
+                    const answerLetter = correctAnswer.charAt(0); // e.g., "d"
+                    switch (answerLetter) {
+                        case 'a':
+                            this.pregunta.respuesta = this.pregunta.opcion1;
+                            break;
+                        case 'b':
+                            this.pregunta.respuesta = this.pregunta.opcion2;
+                            break;
+                        case 'c':
+                            this.pregunta.respuesta = this.pregunta.opcion3;
+                            break;
+                        case 'd':
+                            this.pregunta.respuesta = this.pregunta.opcion4;
+                            break;
+                        default:
+                            this.pregunta.respuesta = ''; 
+                            break;
+                    }
+
+                    console.log('Respuesta OpenAI:', content);
+                    console.log('Respuesta correcta asignada:', this.pregunta.respuesta);
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'La respuesta generada no tiene el formato esperado.',
+                        'error'
+                    );
+                }
+            } else {
+                Swal.fire(
+                    'Error',
+                    'La respuesta no tiene el formato esperado.',
+                    'error'
+                );
+            }
+        },
+        (error) => {
+            console.error('Error detalle:', error);
+            Swal.fire(
+                'Error',
+                'Ocurrió un error al obtener la pregunta: ' + error.message,
+                'error'
+            );
+        }
+    );
+}
+
+private extractOptionText(option: string): string {
+    const idx = option.indexOf(')');
+
+    if (idx !== -1 && idx + 2 <= option.length) {
+        return option.substring(idx + 2).trim();
+    }
+    return option;
 }
 
 
 
+  
+ 
+
+}

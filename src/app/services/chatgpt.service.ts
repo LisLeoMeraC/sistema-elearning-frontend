@@ -13,14 +13,14 @@ export class ChatgptService {
 
   generateQuestion(tema: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer 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',  // RECUERDA: Reemplaza con tu clave API y nunca la expongas en el frontend.
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer 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',  // RECUERDA: Reemplaza con tu clave API y nunca la expongas en el frontend.
+      'Content-Type': 'application/json'  
     });
 
     const body = {
       model: "gpt-3.5-turbo",
       messages: [
-        {"role": "user", "content": `Generar una pregunta de opción múltiple sobre el tema: ${tema}`}
+        {"role": "user", "content": `Piensa como profesor de secundaria: ${tema}`}
       ]
     };
 

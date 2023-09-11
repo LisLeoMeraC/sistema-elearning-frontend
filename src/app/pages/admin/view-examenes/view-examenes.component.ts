@@ -9,9 +9,9 @@ import Swal from 'sweetalert2';
 })
 export class ViewExamenesComponent {
 
-  examenes : any = [
-
-  ]
+  examenes : any = [];
+  nombreABuscar: string = '';
+  examenesFiltrados: any[] = [];
 
   constructor(private examenService:ExamenService) { }
 
@@ -19,6 +19,7 @@ export class ViewExamenesComponent {
     this.examenService.listarCuestionarios().subscribe(
       (dato:any) => {
         this.examenes = dato;
+        this.examenesFiltrados = dato;
         console.log(this.examenes);
       },
       (error) => {
@@ -26,6 +27,11 @@ export class ViewExamenesComponent {
         Swal.fire('Error','Error al cargar los test','error');
       }
     )
+  }
+  filtrarExamenes() {
+    this.examenesFiltrados = this.examenes.filter((examen: any) =>
+      examen.titulo.toLowerCase().includes(this.nombreABuscar.toLowerCase())
+    );
   }
 
   eliminarExamen(examenId:any){
