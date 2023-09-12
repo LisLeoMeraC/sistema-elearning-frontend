@@ -13,7 +13,7 @@ export class ChatgptService {
 
   generateQuestion(tema: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer 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',  // RECUERDA: Reemplaza con tu clave API y nunca la expongas en el frontend.
+      'Authorization': 'Bearer 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',  // RECUERDA: Reemplaza con tu clave API y nunca la expongas en el frontend.
       'Content-Type': 'application/json'  
     });
 
