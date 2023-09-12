@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -7,23 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class ChatgptService {
 
-  private baseUrl: string = 'https://api.openai.com/v1/chat/completions';  // URL de la API de OpenAI
-  
+  // Ajusta la URL para apuntar a tu backend local
+  private baseUrl: string = 'https://computev3-a8811c602065.herokuapp.com/api/chatgpt/generate-question';
+
   constructor(private http: HttpClient) { }
 
   generateQuestion(tema: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Authorization': 'Bearer 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',  // RECUERDA: Reemplaza con tu clave API y nunca la expongas en el frontend.
-      'Content-Type': 'application/json'  
-    });
-
     const body = {
-      model: "gpt-3.5-turbo",
-      messages: [
-        {"role": "user", "content": `Piensa como profesor de secundaria: ${tema}`}
-      ]
+      tema: tema
     };
 
-    return this.http.post<any>(this.baseUrl, body, { headers: headers });
+    return this.http.post<any>(this.baseUrl, body);
   }
 }
