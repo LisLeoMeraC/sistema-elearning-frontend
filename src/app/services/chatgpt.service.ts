@@ -1,14 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import baseURL from './helper';
+// Asegúrate de ajustar la ruta al archivo helper.ts
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatgptService {
 
-  // Ajusta la URL para apuntar a tu backend local
-  private baseUrl: string = 'https://computev3-a8811c602065.herokuapp.com/api/chatgpt/generate-question';
+  private endpoint: string = `${baseURL}/api/chatgpt/generate-question`;
 
   constructor(private http: HttpClient) { }
 
@@ -17,6 +18,7 @@ export class ChatgptService {
       tema: tema
     };
 
-    return this.http.post<any>(this.baseUrl, body);
+    return this.http.post<any>(this.endpoint, body);
   }
 }
+
