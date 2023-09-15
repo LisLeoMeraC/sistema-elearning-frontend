@@ -23,7 +23,7 @@ export class ViewCategoriaComponent {
       },
       (error) => {
         console.log(error);
-        Swal.fire('Error !!','Error al cargar las cateogorias en el sistema','error');
+        Swal.fire('Error !!','Error al cargar las categorias','error');
       }
     )
   }

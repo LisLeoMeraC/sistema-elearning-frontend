@@ -151,7 +151,7 @@ export class AddPreguntaComponent implements OnInit {
           }
         },
         (error) => {
-          console.error('Error detalle:', error);
+          console.error('Error detalle de la :', error);
           Swal.fire(
             'Error',
             'Ocurrió un error al obtener la pregunta: ' + error.message,
