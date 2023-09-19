@@ -20,6 +20,7 @@ export class AddPreguntaComponent implements OnInit {
     opcion3: '',
     opcion4: '',
     respuesta: '',
+    url:'',
   };
 
   constructor(
@@ -73,6 +74,7 @@ export class AddPreguntaComponent implements OnInit {
         this.pregunta.opcion3 = '';
         this.pregunta.opcion4 = '';
         this.pregunta.respuesta = '';
+        this.pregunta.url='';
       },
       (error) => {
         Swal.fire(
@@ -89,7 +91,7 @@ export class AddPreguntaComponent implements OnInit {
     this.chatgptService
       .generateQuestion(
         `Hazme una pregunta con 4 opciones pero con texto no muy largos mas la respuesta que diga: 
-    Respuesta: sobre el tema de ${this.titulo} `
+    Respuesta: sobre el tema de ${this.titulo} mas la url de wikipedia valido de donde sacó la información que diga URL: `
       )
       .subscribe(
         (response) => {
@@ -98,7 +100,7 @@ export class AddPreguntaComponent implements OnInit {
             const splitContent = content
               .split('\n')
               .filter((line: string) => line.trim() !== '');
-            if (splitContent.length >= 6) {
+            if (splitContent.length >= 7) {
               this.pregunta.contenido = splitContent[0]
                 .replace('Pregunta: ', '')
                 .trim();
@@ -106,10 +108,10 @@ export class AddPreguntaComponent implements OnInit {
               this.pregunta.opcion2 = this.extractOptionText(splitContent[2]);
               this.pregunta.opcion3 = this.extractOptionText(splitContent[3]);
               this.pregunta.opcion4 = this.extractOptionText(splitContent[4]);
-
               let correctAnswer = splitContent[5]
                 .replace('Respuesta: ', '')
                 .trim();
+                this.pregunta.url = splitContent[6].replace('URL: ', '').trim(); // Añade esta línea para la URL
               const answerLetter = correctAnswer.charAt(0).toUpperCase();
 
               switch (answerLetter) {

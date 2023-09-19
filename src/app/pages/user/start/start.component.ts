@@ -124,19 +124,31 @@ export class StartComponent implements OnInit, OnDestroy {
         this.puntosConseguidos = data.puntosMaximos;
         this.respuestasCorrectas = data.respuestasCorrectas;
         this.intentos = data.intentos;
-
-        // Asigna directamente las preguntas incorrectas desde la respuesta del servidor
+  
         this.preguntasFallidas = data.preguntasIncorrectas;
-
+  
+        // Asignar las respuestas dadas por el usuario a preguntasFallidas
+        for (let fallida of this.preguntasFallidas) {
+          // @ts-ignore
+          let preguntaOriginal = this.preguntas.find(p => p.preguntaId === fallida.preguntaId); // Asume que cada pregunta tiene un 'preguntaId'
+          if (preguntaOriginal) {
+            console.log("Pregunta Original: ", preguntaOriginal);
+            console.log("Respuesta dada: ", preguntaOriginal.respuestaDada);
+            fallida.respuestaDada = preguntaOriginal.respuestaDada; // Asume que 'respuestaDada' es donde se almacena la respuesta seleccionada por el usuario
+            fallida.url = preguntaOriginal.url;
+          }
+        }
+  
         this.esEnviado = true;
-
-        console.log(data.preguntasFallidas);
       },
       (error) => {
         console.log(error);
       }
     );
   }
+  
+  
+  
 
   obtenerHoraFormateada() {
     let mm = Math.floor(this.timer / 60);

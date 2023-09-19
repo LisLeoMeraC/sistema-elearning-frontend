@@ -1,0 +1,28 @@
+.pregunta-card {
+    margin: 16px 0;
+    padding: 16px;
+  }
+  
+  .resultados p {
+    margin: 0;
+  }
+  
+  .opcion-correcta {
+    color: green;
+  }
+  
+  .respuesta-incorrecta {
+    color: red;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .flex-spacer {
+    flex: 1;
+  }
+  
+  

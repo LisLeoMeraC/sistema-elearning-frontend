@@ -70,7 +70,7 @@
 
 <div class="bootstrap-wrapper" *ngIf = "esEnviado">
   <div class="container mt20">
-    <div class="col-md-6 offset-md-3">
+    <div class="col-md-10 offset-md-1">
       <mat-card>
         <mat-card-header>
           <mat-card-title>
@@ -82,10 +82,46 @@
           <h1>Respuestas correctas : {{ respuestasCorrectas }}</h1>
         </mat-card-content>
         <mat-card-actions class="text-center">
-          <button (click) = "imprimirPagina()" mat-raised-button color="primary" style="left: 60px;">Imprimir</button>
-          <button (click)="abrirVideos()" mat-raised-button color="accent" style="left: 70px;">Videos Recomendados</button>
-          <button mat-raised-button color="warn" [routerLink] = "'/user-dashboard/load-examen'"style="left: 80px;">Inicio</button>
+          <button (click) = "imprimirPagina()" mat-raised-button color="primary" style="left: 250px;">Imprimir</button>
+          <button (click)="abrirVideos()" mat-raised-button color="accent" style="left: 260px;">Videos Recomendados</button>
+          <button mat-raised-button color="warn" [routerLink] = "'/user-dashboard/load-examen'"style="left: 270px;">Inicio</button>
         </mat-card-actions>
+
+
+        <mat-card-content>
+          <h2>Preguntas Fallidas:</h2>
+          <mat-card *ngFor="let pregunta of preguntasFallidas" class="pregunta-card">
+            <mat-card-title>
+              <mat-icon color="warn">error</mat-icon>
+              {{ pregunta.contenido }}
+            </mat-card-title>
+        
+            <mat-card-content>
+              <mat-list>
+                <mat-list-item *ngFor="let opcion of [pregunta.opcion1, pregunta.opcion2, pregunta.opcion3, pregunta.opcion4]">
+                  <span *ngIf="opcion === pregunta.respuesta" class="opcion-correcta">{{ opcion }}</span>
+                  <span *ngIf="opcion !== pregunta.respuesta">{{ opcion }}</span>
+                </mat-list-item>
+              </mat-list>
+            </mat-card-content>
+        
+            <mat-card-actions class="card-actions">
+              <div class="resultados">
+                <p><strong>Respuesta correcta: </strong> {{ pregunta.respuesta }}</p>
+                <p><strong>Tu respuesta: </strong> <span class="respuesta-incorrecta">{{ pregunta.respuestaDada }}</span></p>
+              </div>
+              <div class="flex-spacer"></div>
+              <a mat-button color="accent" [href]="pregunta.url" target="_blank">
+                <mat-icon>launch</mat-icon>
+                Leer más
+              </a>
+            </mat-card-actions>
+            
+          </mat-card>
+        </mat-card-content>
+        
+        
+
       </mat-card>
     </div>
   </div>

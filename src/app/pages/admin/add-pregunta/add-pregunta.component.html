@@ -71,7 +71,18 @@
                   <mat-option *ngIf = "pregunta.opcion4" [value] = "pregunta.opcion4">{{ pregunta.opcion4 }}</mat-option>
                 </mat-select>
               </mat-form-field>
-  
+
+              <div class="col-md-6">
+                <mat-form-field class="w100">
+                  <mat-label>url</mat-label>
+                  <input
+                  type="text"
+                  matInput
+                  name="opcion4"
+                  [(ngModel)] = "pregunta.url">
+                </mat-form-field>
+              </div>
+
               <div class="container text-center">
                 <button mat-raised-button color="primary">Guardar</button>
               </div>
