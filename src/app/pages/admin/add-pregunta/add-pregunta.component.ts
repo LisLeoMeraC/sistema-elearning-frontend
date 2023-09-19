@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { PreguntaService } from 'src/app/services/pregunta.service';
 import { ChatgptService } from 'src/app/services/chatgpt.service';
 import Swal from 'sweetalert2';
+import { ExamenService } from 'src/app/services/examen.service';
+
 
 @Component({
   selector: 'app-add-pregunta',
@@ -12,6 +14,9 @@ import Swal from 'sweetalert2';
 export class AddPreguntaComponent implements OnInit {
   examenId: any;
   titulo: any;
+  numeroDePreguntasActuales: number = 0;
+  preguntasAgregadas: number = 0;
+  
   pregunta: any = {
     examen: {},
     contenido: '',
@@ -20,22 +25,45 @@ export class AddPreguntaComponent implements OnInit {
     opcion3: '',
     opcion4: '',
     respuesta: '',
-    url:'',
+    url: '',
   };
 
   constructor(
     private route: ActivatedRoute,
     private preguntaService: PreguntaService,
-    private chatgptService: ChatgptService
+    private chatgptService: ChatgptService,
+    private examenService: ExamenService
   ) {}
 
   ngOnInit(): void {
     this.examenId = this.route.snapshot.params['examenId'];
     this.titulo = this.route.snapshot.params['titulo'];
     this.pregunta.examen['examenId'] = this.examenId;
+
+    // Obtener el examen actual desde la API
+    this.examenService.obtenerExamen(this.examenId).subscribe(
+      (data: any) => {
+        this.numeroDePreguntasActuales = parseInt(data.numeroDePreguntas, 10);
+        console.log('Número de preguntas actuales:', this.numeroDePreguntasActuales); // Imprimir en la consola
+        console.log('Respuesta del servidor:', data);
+      
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   formSubmit() {
+    if (this.preguntasAgregadas >= this.numeroDePreguntasActuales) { // Cambia el 10 al número máximo de preguntas que quieres permitir
+      Swal.fire(
+        'Límite alcanzado',
+        'Has alcanzado el número máximo de preguntas para este examen.',
+        'warning'
+      );
+      return;
+    }
+
     if (
       this.pregunta.contenido.trim() == '' ||
       this.pregunta.contenido == null
@@ -63,6 +91,7 @@ export class AddPreguntaComponent implements OnInit {
 
     this.preguntaService.guardarPregunta(this.pregunta).subscribe(
       (data) => {
+        this.preguntasAgregadas++;
         Swal.fire(
           'Pregunta guardada',
           'La pregunta ha sido agregada con éxito',
@@ -76,6 +105,7 @@ export class AddPreguntaComponent implements OnInit {
         this.pregunta.respuesta = '';
         this.pregunta.url='';
       },
+      
       (error) => {
         Swal.fire(
           'Error',

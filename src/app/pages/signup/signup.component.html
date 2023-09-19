@@ -19,6 +19,16 @@
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Rol</mat-label>
+                        <mat-select [(ngModel)]="user.rolFormulario" name="rol" required>
+                          <mat-option value="docente">Docente</mat-option>
+                          <mat-option value="estudiante">Estudiante</mat-option>
+                        </mat-select>
+                        <!-- Agrega un mensaje de error si el campo es inválido -->
+                        <mat-error *ngIf="user.rolFormulario === null">El campo Rol es requerido.</mat-error>
+                      </mat-form-field>
+
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Nombres</mat-label>
                         <input [(ngModel)]="user.nombre" name="nombre" matInput placeholder="Escriba su Nombres">
                     </mat-form-field>
@@ -43,18 +53,8 @@
                         <input [(ngModel)]="user.identidad" name="identidad"  matInput placeholder="Escriba su numero de Identidad">
                     </mat-form-field>
 
-                    <mat-form-field class="full-width" appearance="outline">
-                        <mat-label>Rol</mat-label>
-                        <mat-select [(ngModel)]="user.rolFormulario" name="rol">
-                            <mat-option value="docente">Docente</mat-option>
-                            <mat-option value="estudiante">Estudiante</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    
-
                     <div class="container text-center">
-                        <button mat-raised-button color="primary">Registrar</button>
-                        <button type="reset" style="margin-left: 20px;" mat-raised-button color="warn">Limpiar</button>
+                        <button mat-raised-button color="primary" [disabled]="user.rolFormulario === ''">Registrar</button>                        <button type="reset" style="margin-left: 20px;" mat-raised-button color="warn">Limpiar</button>
                     </div>
                 </form>
                 <br><br><br>

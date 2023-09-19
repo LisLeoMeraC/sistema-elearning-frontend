@@ -29,22 +29,36 @@
             <mat-form-field class="w100" appearance="fill">
               <mat-label>Puntos máximos</mat-label>
               <input
-              [(ngModel)] = "examenData.puntosMaximos"
-              type="text"
-              name="puntosMaximos"
-              placeholder="Digite la cantidad de puntos"
-              matInput>
+                [(ngModel)]="examenData.puntosMaximos"
+                type="text"
+                name="puntosMaximos"
+                placeholder="Digite la cantidad de puntos"
+                matInput
+                pattern="^[0-9]+$" 
+                required
+              >
+              <mat-error *ngIf="!examenData.puntosMaximos">Este campo es requerido</mat-error>
+              <mat-error *ngIf="examenForm.controls['puntosMaximos'].hasError('pattern')">
+                Ingresa solo números
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="w100" appearance="fill">
               <mat-label>Número de preguntas</mat-label>
               <input
-              [(ngModel)] = "examenData.numeroDePreguntas"
-              type="text"
-              name="numeroDePreguntas"
-              placeholder="Digite el número de preguntas"
-              matInput>
+                [(ngModel)]="examenData.numeroDePreguntas"
+                type="text"
+                name="numeroDePreguntas"
+                placeholder="Digite el número de preguntas"
+                matInput
+                pattern="^[0-9]+$" 
+                required
+              >
+              <mat-error *ngIf="!examenData.numeroDePreguntas">Este campo es requerido</mat-error>
+              <mat-error *ngIf="examenForm.controls['numeroDePreguntas'].hasError('pattern')">
+                Ingresa solo números
+              </mat-error>
             </mat-form-field>
           </div>
         </div>
