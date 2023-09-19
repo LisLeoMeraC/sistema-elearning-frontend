@@ -22,6 +22,7 @@ import Swal from 'sweetalert2';
       identidad:'',
       rolFormulario:''
     }
+    hide = true;
 
   constructor(private userService:UserService, private snack:MatSnackBar, private router: Router){ }
 

@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit{
     "username" : '',
     "password" : ''
   }
+  hide = true;
 
 
   constructor(private snack:MatSnackBar,private loginService:LoginService,private router:Router) { }

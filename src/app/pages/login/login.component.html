@@ -16,9 +16,11 @@
 
                         <mat-form-field class="full-width" appearance="outline">
                             <mat-label>Contraseña</mat-label>
-                            <input [(ngModel)]="loginData.password" name="password" required type="password" matInput placeholder="Digite su contraseña">
-                            <mat-hint>La contraseña debe ser valida</mat-hint>
-                        </mat-form-field>
+                            <input required [(ngModel)]="loginData.password" name="password" [type]="hide ? 'password' : 'text'" matInput placeholder="Escriba su contraseña">
+                            <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+                              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                          </mat-form-field>
 
                         <br><br>
                         <div class="container text-center">

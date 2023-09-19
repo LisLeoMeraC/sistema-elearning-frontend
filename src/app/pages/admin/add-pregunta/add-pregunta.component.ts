@@ -16,6 +16,7 @@ export class AddPreguntaComponent implements OnInit {
   titulo: any;
   numeroDePreguntasActuales: number = 0;
   preguntasAgregadas: number = 0;
+  showField = false; 
   
   pregunta: any = {
     examen: {},
