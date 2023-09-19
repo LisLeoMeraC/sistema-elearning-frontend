@@ -90,8 +90,8 @@ export class AddPreguntaComponent implements OnInit {
   generarPregunta(): void {
     this.chatgptService
       .generateQuestion(
-        `Por favor, crea una pregunta de opción múltiple sobre el tema de ${this.titulo} indicando la respuesta correcta en el siguiente formato Respuesta: "______________"
-        y por favor, proporciona la URL de la fuente en wikipedia de información válida con el siguiente formato URL: ________________`
+        `Hazme una pregunta con 4 opciones pero con texto no muy largos mas la respuesta que diga: 
+        Respuesta: sobre el tema de ${this.titulo}`
       )
       .subscribe(
         (response) => {
@@ -111,7 +111,7 @@ export class AddPreguntaComponent implements OnInit {
               let correctAnswer = splitContent[5]
                 .replace('Respuesta: ', '')
                 .trim();
-                this.pregunta.url = splitContent[6].replace('URL: ', '').trim(); // Añade esta línea para la URL
+                          this.pregunta.url = splitContent[6].replace('URL: ', '').trim(); // Añade esta línea para la URL
               const answerLetter = correctAnswer.charAt(0).toUpperCase();
 
               switch (answerLetter) {
