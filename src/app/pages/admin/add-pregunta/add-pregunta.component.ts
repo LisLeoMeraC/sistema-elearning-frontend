@@ -90,8 +90,8 @@ export class AddPreguntaComponent implements OnInit {
   generarPregunta(): void {
     this.chatgptService
       .generateQuestion(
-        `Hazme una pregunta con 4 opciones pero con texto no muy largos mas la respuesta solo que meuestre este encabezado: 
-    Respuesta: sobre el tema de ${this.titulo} mas la url de wikipedia valido de donde sacó la información que diga URL: `
+        `Hazme una pregunta con 4 opciones pero con texto no muy largos mas la respuesta que se muestre con el siguiente formato: 
+    Respuesta: "valor del literal" sobre el tema de ${this.titulo} mas la url de wikipedia valido de donde sacó la información que diga URL: `
       )
       .subscribe(
         (response) => {
